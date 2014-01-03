@@ -1,26 +1,25 @@
 
 #include <futurocube>
 
-new list[100]
 new simon_step=1
+new rnd_seed
 
 init_list()
 {
-    for (new list_step=0; list_step < sizeof(list); list_step++) {
-        list[list_step] = GetRnd(6)
-    }
+    rnd_seed = GetRnd(0xffff)
+    SetRandomizeFlag(0)
 }
 
 play_list()
 {
-        for (new list_step=0;
-             list_step < simon_step && list_step < sizeof(list);
-             list_step++) {
-            new side = list[list_step]
+    SetRndSeed(rnd_seed)
+    for (new play_step=0;
+         play_step < simon_step;
+         play_step++) {
 
-            flash_side(side, 500)
-            Delay(250)
-        }
+        flash_side(GetRnd(6), 500)
+        Delay(250)
+    }
 }
 
 feedback(ok) {
@@ -52,13 +51,15 @@ listen_user() {
     new user_step=0
     new user_side
 
+    SetRndSeed(rnd_seed)
+
     for (;;) {
         new motion=Motion()
         if (motion) {
             user_side = eTapSide()
             flash_side(user_side, 100)
             AckMotion()
-            if (list[user_step] == user_side) {
+            if (GetRnd(6) == user_side) {
                 user_step++
             } else {
                 return false
@@ -104,10 +105,6 @@ main()
             Score(simon_step - 1)
         }
         Delay(500)
-
-        if (simon_step > sizeof(list)) {
-            Score(simon_step)
-        }
 
         Sleep()
     }
