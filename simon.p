@@ -40,16 +40,14 @@ play_list()
 
 feedback(ok) {
     SetIntensity(40)
-    if (ok) {
-        SetColor(cGREEN)
-    } else {
-        SetColor(cRED)
-    }
+    SetColor(ok ? cGREEN : cRED)
+
     DrawCube()
     PrintCanvas()
     Delay(100)
     ClearCanvas()
     PrintCanvas()
+
     SetIntensity(128)
 }
 
@@ -70,8 +68,7 @@ listen_user() {
     SetRndSeed(rnd_seed)
 
     for (;;) {
-        new motion=Motion()
-        if (motion) {
+        if (Motion()) {
             user_side = eTapSide()
             flash_side(user_side, 100)
             AckMotion()
@@ -80,8 +77,9 @@ listen_user() {
             } else {
                 return false
             }
-            if (user_step == simon_step)
+            if (user_step == simon_step) {
                 return true
+            }
         }
         Sleep()
     }
