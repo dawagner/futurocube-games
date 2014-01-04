@@ -87,7 +87,7 @@ listen_user() {
     }
 }
 
-waitFirstClick()
+wait_first_click()
 {
     for (;;) {
         if (Motion())
@@ -104,7 +104,7 @@ main()
 
     RegAllSideTaps()
 
-    waitFirstClick()
+    wait_first_click()
 
     for (;;) {
         play_list()
