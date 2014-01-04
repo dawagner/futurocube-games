@@ -88,8 +88,10 @@ listen_user() {
 wait_first_click()
 {
     for (;;) {
-        if (Motion())
+        if (Motion()) {
+            AckMotion()
             return
+        }
         Sleep()
     }
 }
