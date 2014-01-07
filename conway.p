@@ -18,7 +18,7 @@ new const state_colors[] = [cMAGENTA, cGREEN, cPURPLE, 0]
 /*new cells[6][9] = {dead, ...}*/
 new cells[6][9] = [
     [alive, alive, alive, dead, dead, dead, dead, dead, dead],
-    [dead, ...],
+    [alive, ...],
     [dead, ...],
     [dead, ...],
     [dead, ...],
@@ -57,19 +57,34 @@ update_state(wi, alive_neighbours)
     if (next_state == alive) {
         if (alive_neighbours > 3 || alive_neighbours < 2) {
             next_state = dying
-            printf("dying\n")
         } else {
             next_state = alive
-            printf("still alive\n")
         }
     } else {
         if (alive_neighbours == 3) {
             next_state = bearing
-            printf("bearing\n")
         }
     }
 
     cells[_side(wi)][_square(wi)] = next_state
+}
+
+bool: skip_step(step, square)
+{
+    new walker_step = walker_steps[step]
+    if (walker_step == STEP_UPLEFT && square == 0) {
+        return true
+    }
+    if (walker_step == STEP_UPRIGHT && square == 2) {
+        return true
+    }
+    if (walker_step == STEP_DOWNLEFT && square == 6) {
+        return true
+    }
+    if (walker_step == STEP_DOWNRIGHT && square == 8) {
+        return true
+    }
+    return false
 }
 
 update_pass_1() {
@@ -78,9 +93,12 @@ update_pass_1() {
             new walker = _w(side, square)
             new alive_neighbours = 0
             for (new step=0; step < sizeof(walker_steps); step++) {
+                if (skip_step(step, square) == true) {
+                    continue
+                }
                 WalkerMove(walker, walker_steps[step])
-                printf("walker now at %d/%d\n",
-                        _side(walker), _square(walker))
+                /*printf("walker now at %d/%d\n",
+                        _side(walker), _square(walker))*/
                 if (is_alive_now(walker)) {
                     alive_neighbours++
                 }
