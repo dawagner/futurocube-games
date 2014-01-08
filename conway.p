@@ -17,8 +17,8 @@ new const state_colors[] = [cMAGENTA, cGREEN, cPURPLE, 0]
 
 /*new cells[6][9] = {dead, ...}*/
 new cells[6][9] = [
-    [alive, alive, alive, dead, dead, dead, dead, dead, dead],
-    [alive, ...],
+    [dead, ...],
+    [dead, ...],
     [dead, ...],
     [dead, ...],
     [dead, ...],
@@ -39,6 +39,10 @@ get_cell(wi)
     return cells[_side(wi)][_square(wi)]
 }
 
+set_cell(wi, new_state)
+{
+    cells[_side(wi)][_square(wi)] = new_state
+}
 
 get_color(wi)
 {
@@ -66,7 +70,7 @@ update_state(wi, alive_neighbours)
         }
     }
 
-    cells[_side(wi)][_square(wi)] = next_state
+    set_cell(wi, next_state)
 }
 
 bool: skip_step(step, square)
@@ -111,12 +115,14 @@ update_pass_1() {
 
 update_pass_2()
 {
+    new walker
     for (new side=0; side < 6; side++) {
         for (new square=0; square < 9; square++) {
-            if (cells[side][square] == dying) {
-                cells[side][square] = dead
-            } else if (cells[side][square] == bearing) {
-                cells[side][square] = alive
+            walker = _w(side, square)
+            if (get_cell(walker) == dying) {
+                set_cell(walker, dead)
+            } else if (get_cell(walker) == bearing) {
+                set_cell(walker, alive)
             }
         }
     }
@@ -132,11 +138,64 @@ update_canvas()
     }
 }
 
-main()
+user_setup()
 {
+    new cursor
+
+    SetColor(WHITE)
+
     for (;;) {
         update_canvas()
+        cursor = GetCursor()
+
+        if (is_alive_now(cursor)) {
+            SetColor(cRED)
+        } else {
+            SetColor(cGREEN)
+        }
+        DrawFlicker(cursor)
+
+        if (Motion()) {
+            Play("drip")
+            if (eTapToBot()) {
+                AckMotion()
+                return
+            }
+        
+            if (get_cell(cursor) == alive) {
+                set_cell(cursor, dead)
+            } else {
+                set_cell(cursor, alive)
+            }
+            DrawPC(cursor, cGREEN)
+            AckMotion()
+        }
         PrintCanvas()
+        Sleep()
+    }
+}
+
+main()
+{
+    new motion
+    RegAllSideTaps()
+    RegMotion(TAP_DOUBLE)
+
+    user_setup()
+
+    for (;;) {
+        /* TODO: implement pause, speed adjustment */
+        motion = Motion()
+        if (motion && _is(motion, TAP_DOUBLE)) {
+            AckMotion()
+            Restart()
+        }
+
+        update_canvas()
+        PrintCanvas()
+        /* FIXME: sleep for a shorter time but use a timer instead, for
+         * ensuring 1s delay.  Issue with Sleep(1000) is that motions are
+         * checked every 2 seconds only... */
         Sleep(1000)
         update_pass_1()
         update_canvas()
