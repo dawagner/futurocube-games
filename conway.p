@@ -1,22 +1,16 @@
 #include <futurocube>
 
-/*
-const state: {
+const cell_state: {
     bearing = 0,
     alive,
     dying,
     dead
 }
-*/
-const bearing = 0
-const alive = 1
-const dying = 2
-const dead = 3
 
 new const state_colors[] = [cMAGENTA, cGREEN, cPURPLE, 0]
 
 /*new cells[6][9] = {dead, ...}*/
-new cells[6][9] = [
+new cell_state:cells[6][9] = [
     [dead, ...],
     [dead, ...],
     [dead, ...],
@@ -34,12 +28,12 @@ new const walker_steps[] = [
     STEP_DOWNLEFT,
     STEP_DOWNRIGHT]
 
-get_cell(wi)
+cell_state: get_cell(wi)
 {
     return cells[_side(wi)][_square(wi)]
 }
 
-set_cell(wi, new_state)
+set_cell(wi, cell_state: new_state)
 {
     cells[_side(wi)][_square(wi)] = new_state
 }
@@ -51,13 +45,13 @@ get_color(wi)
 
 is_alive_now(wi)
 {
-    new cell = get_cell(wi)
+    new cell_state:cell = get_cell(wi)
     return (cell == alive || cell == dying)
 }
 
 update_state(wi, alive_neighbours)
 {
-    new next_state = get_cell(wi)
+    new cell_state:next_state = get_cell(wi)
     if (next_state == alive) {
         if (alive_neighbours > 3 || alive_neighbours < 2) {
             next_state = dying
