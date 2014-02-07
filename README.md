@@ -29,6 +29,21 @@ replay the sequence correctly, the cube adds one step to the sequence.
 If you fail, the cube flashes red and displays your score.  Tap twice to close
 the score, then once to start over.
 
+
+Beetle
+------
+In this game, you must squash the red cockroaches crawling on the surface of
+the cube.  But you musn't hit the cute blue ladybugs !
+
+Tap on a side to kill all cockroaches on it.  The more you kill with one tap,
+the more points you get.  However, if there was a ladybug on that same side,
+you loose points (but the ladybug doesn't die, phew !).
+
+Before starting the game, you will be offered a choice between 6 difficulty
+levels.  Level 1 is a stroll in the park - after playing level 6, you won't
+need a coffee anymore.
+
+
 Conway (Work in progress)
 -------------------------
 Implementation of Conway's cellular automata, "[Game of
