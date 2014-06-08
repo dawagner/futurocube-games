@@ -44,6 +44,38 @@ levels.  Level 1 is a stroll in the park - after playing level 6, you won't
 need a coffee anymore.
 
 
+Multiplayer mastermind
+----------------------
+    
+2-6 players on a single cube
+
+Players take turns trying to guess a sequence of colors secrectly decided by the
+cube (colors do not repeat within the sequence).
+
+At the beginning of the game, the players must choose a level (1-6): this will
+be the length of the sequence to be guessed (of course, 1 or 2 are pointless...)
+
+The active player taps a sequence (tap twice, so as to avoid "misclicks") in
+front of all the other players. Once he's done, the cube blacks-out. The player
+then hides the cube and click once again to reveal the score to himself only.
+Exact guesses are drawn in green, color-only (correct color, wrong position) are
+drawn in red.
+
+Now, the active player may (or may not) announce his score. If he chooses to, he
+is not obliged to announce his real score: he may lie about it. The next player
+has to choose whether he believes him or not.
+
+If he does not believe him, the active player reveals his score on the cube to
+the next player. Two cases:
+    A) the player lied -> It is now the next players' turn.
+    B) the player did not lie -> he plays again (but cannot chose to announce
+his score again that time).
+
+If the active player does not chose to announce his score, he hides his score by
+clicking once more and hands the cube to the next player.
+
+The first player to play the correct sequence wins and is greeted by a fanfare.
+
 Conway (Work in progress)
 -------------------------
 Implementation of Conway's cellular automata, "[Game of
