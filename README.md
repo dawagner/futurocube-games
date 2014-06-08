@@ -33,7 +33,7 @@ the score, then once to start over.
 Beetle
 ------
 In this game, you must squash the red cockroaches crawling on the surface of
-the cube.  But you musn't hit the cute blue ladybugs !
+the cube.  But you mustn't hit the cute blue ladybugs !
 
 Tap on a side to kill all cockroaches on it.  The more you kill with one tap,
 the more points you get.  However, if there was a ladybug on that same side,
@@ -49,7 +49,7 @@ Multiplayer mastermind
     
 2-6 players on a single cube
 
-Players take turns trying to guess a sequence of colors secrectly decided by the
+Players take turns trying to guess a sequence of colors secretly decided by the
 cube (colors do not repeat within the sequence).
 
 At the beginning of the game, the players must choose a level (1-6): this will
